@@ -3,17 +3,17 @@ package com.techelevator;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Scanner;
+import java.util.TreeMap;
 
 public class InventoryReader {
 
 	public Map<String, Queue<Item>> generateInventory() {
 
-		Map<String, Queue<Item>> inventory = new HashMap<>();
+		Map<String, Queue<Item>> inventory = new TreeMap<>();
 		String filePath = "/Users/bethanywarner/workspace/capstone/java-module1-capstone-team5/vendingmachine.csv";
 		File inventoryFile = new File(filePath);
 

@@ -16,13 +16,21 @@ public class Menu {
 		this.in = new Scanner(input);
 	}
 
-	public Object getChoiceFromOptions(Object[] options) {
+	public Object getChoiceFromOptions(Object[] options, String message) {
 		Object choice = null;
 		while(choice == null) {
-			displayMenuOptions(options);
+			displayMenuOptions(options, message);
 			choice = getChoiceFromUserInput(options);
 		}
 		return choice;
+	}
+	
+	public Object getChoiceFromOptions(Object[] options) {
+		return getChoiceFromOptions(options, "");
+	}
+	
+	public String getChoiceFromOptions(String message) {
+		return getChoiceFromOptions(message);
 	}
 
 	public BigDecimal getAmountFromUserInput() {
@@ -59,12 +67,13 @@ public class Menu {
 		return choice;
 	}
 //a String array
-	private void displayMenuOptions(Object[] options) {
+	private void displayMenuOptions(Object[] options, String message) {
 		out.println();
 		for(int i = 0; i < options.length; i++) {
 			int optionNum = i+1;
 			out.println(optionNum+") "+options[i]);
 		}
+		out.println(message);
 		out.print("\nPlease choose an option >>> ");
 		out.flush();
 	}
