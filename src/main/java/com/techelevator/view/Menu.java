@@ -33,9 +33,9 @@ public class Menu {
 
 			String userInput = in.nextLine();
 			try {
-				return new BigDecimal(userInput).setScale(2);
-			} catch(NumberFormatException ex) {
-				out.println("Please enter a valid number.");
+				return new BigDecimal(userInput).setScale(2); // takes money from user and deposits into vending machine
+			} catch(NumberFormatException ex) {					// converts their input into BD so you don't have to 
+				out.println("Please enter a valid number.");		// worry about it
 				out.println();
 				out.flush();
 			}
@@ -58,7 +58,7 @@ public class Menu {
 		}
 		return choice;
 	}
-
+//a String array
 	private void displayMenuOptions(Object[] options) {
 		out.println();
 		for(int i = 0; i < options.length; i++) {

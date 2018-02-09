@@ -15,12 +15,17 @@ public class VendingMachineCLI {
 		this.menu = menu;
 	}
 	
+	VendingMachine vendingMachine = new VendingMachine();
+	
+	
 	public void run() {
 		while(true) {
 			String choice = (String)menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
-			
 			if(choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) {
-				// display vending machine items
+				vendingMachine.displayInventory();				
+				
+				
+				
 			} else if(choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
 				// do purchase
 			}
@@ -28,8 +33,9 @@ public class VendingMachineCLI {
 	}
 	
 	public static void main(String[] args) {
-		Menu menu = new Menu(System.in, System.out);
-		VendingMachineCLI cli = new VendingMachineCLI(menu);
+		Menu menu = new Menu(System.in, System.out);			// this is a class. this instantiates a new object of this class
+		VendingMachineCLI cli = new VendingMachineCLI(menu); 	// and lets objects handle everything else
 		cli.run();
+		
 	}
 }
