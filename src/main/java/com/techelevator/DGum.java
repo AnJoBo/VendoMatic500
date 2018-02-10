@@ -7,5 +7,6 @@ public class DGum extends Item {
 	public DGum(String name, BigDecimal price) {
 		setName(name);
 		setPrice(price);
+		setConsume("Chew Chew, Yum!");
 	}
 }

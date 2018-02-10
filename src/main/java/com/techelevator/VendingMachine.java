@@ -1,6 +1,7 @@
 package com.techelevator;
 
 import java.math.BigDecimal;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
@@ -9,7 +10,7 @@ public class VendingMachine {
 // instantiation
 	private BigDecimal balance = new BigDecimal("0.00");
 	private Map<String, Queue<Item>> inventory;
-	private List<Item> itemBin;
+	private List<Item> itemBin = new LinkedList<>();
 	private InventoryReader inventoryGen = new InventoryReader();
 	
 // constructor
@@ -29,19 +30,28 @@ public class VendingMachine {
 	
 // methods
 	public void deposit(BigDecimal feed) {
-		//if(feed == new BigDecimal("1.00") || feed == new BigDecimal("5") || feed == new BigDecimal("10")) {
+		if(feed.compareTo(new BigDecimal("0")) > 0) {
 			this.balance = balance.add(feed);
-		//} else {
+		} //else {
 		//	System.out.println("Invalid input.");
 		//}
 	}
 	
 	public void dispense(String slotID) {
-		//
+		if(balance.compareTo(inventory.get(slotID).element().getPrice()) >= 0) {
+			Item item = inventory.get(slotID).poll();
+			balance = balance.subtract(inventory.get(slotID).element().getPrice());
+			itemBin.add(item);
+		} else {
+			System.out.println("No moneys");
+		}
 	}
 	
 	public int itemBinCount() {
 		return itemBin.size();
+	}
+	public List<Item> getItemBin() {
+		return itemBin;
 	}
 	
 	public void displayInventory() {
@@ -59,5 +69,8 @@ public class VendingMachine {
 	}
 	
 	public void finish() {
+		//add to logWriter
+		
+		this.balance = new BigDecimal("0.00");
 	}
 }

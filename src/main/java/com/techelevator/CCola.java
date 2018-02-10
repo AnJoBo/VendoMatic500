@@ -7,5 +7,6 @@ public class CCola  extends Item {
 	public CCola(String name, BigDecimal price) {
 		setName(name);
 		setPrice(price);
+		setConsume("Glug Glug, Yum!");
 	}
 }

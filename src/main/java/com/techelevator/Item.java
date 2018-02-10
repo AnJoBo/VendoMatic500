@@ -23,6 +23,9 @@ public abstract class Item {
 		this.price = price;
 	}
 	
+	public void setConsume(String consume) {
+		this.consume = consume;
+	}
 	public String getConsume() {
 		return consume;
 	}
