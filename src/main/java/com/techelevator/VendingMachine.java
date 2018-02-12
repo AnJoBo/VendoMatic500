@@ -1,9 +1,12 @@
 package com.techelevator;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Queue;
 
 public class VendingMachine {
@@ -12,6 +15,7 @@ public class VendingMachine {
 	private Map<String, Queue<Item>> inventory;
 	private List<Item> itemBin = new LinkedList<>();
 	private InventoryReader inventoryGen = new InventoryReader();
+	private VendingLog log = new VendingLog();
 	
 // constructor
 	public VendingMachine() {
@@ -29,21 +33,40 @@ public class VendingMachine {
 	}
 	
 // methods
-	public void deposit(BigDecimal feed) {
-		if(feed.compareTo(new BigDecimal("0")) > 0) {
-			this.balance = balance.add(feed);
-		} //else {
-		//	System.out.println("Invalid input.");
-		//}
+	public void deposit(BigDecimal feed) throws IOException {
+		
+			if(feed.compareTo(new BigDecimal("0")) > 0 &&
+			feed.compareTo(new BigDecimal("1")) == 0 ||
+			feed.compareTo(new BigDecimal("2")) == 0 ||
+			feed.compareTo(new BigDecimal("5")) == 0 ||
+			feed.compareTo(new BigDecimal("10")) == 0) {
+				this.balance = balance.add(feed);
+				log.logData(true, feed, balance);
+			} else {
+				System.out.println();
+				System.out.println("Invalid amount.");
+			}
+		
+			
 	}
 	
-	public void dispense(String slotID) {
-		if(balance.compareTo(inventory.get(slotID).element().getPrice()) >= 0) {
-			Item item = inventory.get(slotID).poll();
-			balance = balance.subtract(inventory.get(slotID).element().getPrice());
-			itemBin.add(item);
+	public void dispense(String slotID) throws FileNotFoundException {
+		
+		if(!inventory.get(slotID).isEmpty()) {
+			BigDecimal itemPrice = inventory.get(slotID).element().getPrice();
+
+			if(balance.compareTo(itemPrice) > 0) {
+				Item item = inventory.get(slotID).poll();
+				log.logData(item.getName(), slotID, balance, balance.subtract(itemPrice));
+				balance = balance.subtract(itemPrice);
+				itemBin.add(item);
+			} else {
+				System.out.println();
+				System.out.println("Not enough funds.");
+			}
 		} else {
-			System.out.println("No moneys");
+			System.out.println();
+			System.out.println("That item is sold out.");
 		}
 	}
 	
@@ -55,22 +78,36 @@ public class VendingMachine {
 	}
 	
 	public void displayInventory() {
-		//System.out.println(inventory.entrySet().); //
+		inventoryHeader();
 		for(String key : inventory.keySet()) {
 			if(!key.isEmpty()) {
-				System.out.printf("%s | %s - %.2f | %d %n",
+				try {
+					System.out.printf("%-8s | %-20s | %-5.2f | %d %n",
 					key, inventory.get(key).element().getName(),
 					inventory.get(key).element().getPrice(),
 					inventory.get(key).size());
-			} else {
-				System.out.printf("%s | Out of Stock %n", key);
+				} catch(NoSuchElementException ex) {
+					inventorySlotEmpty(key);
+				}
 			}
 		}
 	}
 	
-	public void finish() {
-		//add to logWriter
+	public void inventoryHeader() {
+		System.out.printf("----------------------------------------------- %n" +
+									"%8s | %-20s | %s | Stock %n"
+						+ "----------------------------------------------- %n",
+									"Slot ID", "Item", "Price");
+	}
+	
+	public void inventorySlotEmpty(String key) {
+		System.out.printf("%-8s | %-20s | -.--  | - %n", key, " -----SOLD OUT-----");
+	}
+	
+	public void finish() throws IOException {
+		BigDecimal reset = new BigDecimal("0.00");
+		log.logData(false, balance, reset);
 		
-		this.balance = new BigDecimal("0.00");
+		this.balance = reset;
 	}
 }

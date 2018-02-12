@@ -1,5 +1,7 @@
 package com.techelevator;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 import com.techelevator.view.Menu;
@@ -24,41 +26,44 @@ public class VendingMachineCLI {
 		this.menu = menu;
 	}
 
-	public void run() {
+	public void run() throws IOException {
+		
 		while (true) {
 			String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
 			if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) {
 				vendingMachine.displayInventory();
 			} else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
+				
 				while (!choice.equals(PURCHASE_MENU_OPTION_FINISH_TRANSACTION)) {
 					choice = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS,
-							"Current Money Provided: " + vendingMachine.getBalance());
+							"Current Money Provided: $" + vendingMachine.getBalance());
 
 					if (choice.equals(PURCHASE_MENU_OPTION_FEED_MONEY)) {
 						vendingMachine.deposit(menu.getAmountFromUserInput());
 
 					} else if (choice.equals(PURCHASE_MENU_OPTION_PURCHASE)) {
-						// vendingMachine.displayInventory();
+						vendingMachine.displayInventory();
 
 						System.out.println();
 						System.out.print("Please enter an item ID >>>");
 						Scanner scan = new Scanner(System.in);
 						choice = scan.nextLine();
 						choice = choice.toUpperCase();
-
+						
 						if (vendingMachine.getInventoryKey(choice)) {
 							vendingMachine.dispense(choice);
-						} else {
-							System.out.println("Sorry, please try again! We don't seem to have that item.");
+						} else if(!vendingMachine.getInventoryKey(choice)) {
+							System.out.println();
+							System.out.println("That code does not exist.");
 						}
-						// vendingMachine.dispense(menu.getChoiceFromOptions());
 					}
 					
 				}
 				// Finishing logic
-				//getChange
+				System.out.println();
 				Change change = new Change(vendingMachine.getBalance());
-				System.out.println(change.makeChange());
+				change.makeChange();
+				change.printChange();
 				vendingMachine.finish();
 				for(Item snack : vendingMachine.getItemBin()) {
 					System.out.println(snack.getConsume());
@@ -67,7 +72,7 @@ public class VendingMachineCLI {
 		}
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		Menu menu = new Menu(System.in, System.out); // this is a class. this instantiates a new object of this class
 		VendingMachineCLI cli = new VendingMachineCLI(menu); // and lets objects handle everything else
 		cli.run();

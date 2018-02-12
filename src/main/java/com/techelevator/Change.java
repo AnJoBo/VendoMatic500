@@ -4,91 +4,127 @@ import java.math.BigDecimal;
 
 public class Change {
 
-	BigDecimal balance = new BigDecimal("0.00");
+	private BigDecimal balance;
 	
-	public Change(BigDecimal change) {
-		this.balance = change;
+	private int tenDollarBill = 0;
+	private int fiver = 0;		
+	private int dollar = 0;
+	private int quarter = 0;
+	private int dime = 0;
+	private int nickel = 0;
+	
+	private String yourChange = "You recieve ";
+	
+	private int pieces = 0;
+	
+	public Change(BigDecimal balance) {
+		this.balance = balance;
 	}
-	
-	//methods
-	public String makeChange() {
+
+	public void makeChange() {
+		BigDecimal zero = new BigDecimal("0");
+		BigDecimal ten = new BigDecimal("10");
+		BigDecimal five = new BigDecimal("5");
+		BigDecimal one = new BigDecimal("1");
+		BigDecimal aQuarter = new BigDecimal("0.25");
+		BigDecimal aDime = new BigDecimal("0.10");
+		BigDecimal aNickel = new BigDecimal("0.05");
 		
-		int tenDollarBill = 0;
-		int fiver = 0;		
-		int dollar = 0;
-		int quarter = 0;
-		int dime = 0;
-		int nickel = 0;
-		
-		while(balance.compareTo(new BigDecimal("0.00")) > 0) {
-			
-			if(balance.compareTo(new BigDecimal("10.00")) >= 0) {
-				balance = balance.subtract(new BigDecimal("10.00"));
+		while(balance.compareTo(zero) > 0) {
+			if(balance.compareTo(ten) >= 0) {
+				balance = balance.subtract(ten);
 				tenDollarBill++;
-			} else if(balance.compareTo(new BigDecimal("5.00")) >= 0) {
-				balance = balance.subtract(new BigDecimal("5.00"));
+				pieces++;
+			} else if(balance.compareTo(five) >= 0) {
+				balance = balance.subtract(five);
 				fiver++;
-			} else if(balance.compareTo(new BigDecimal("1.00")) >= 0) {
-				balance = balance.subtract(new BigDecimal("1.00"));
+				pieces++;
+			} else if(balance.compareTo(one) >= 0) {
+				balance = balance.subtract(one);
 				dollar++;
-			} else if(balance.compareTo(new BigDecimal(".25")) >= 0) {
-				balance = balance.subtract(new BigDecimal("0.25"));
+				pieces++;
+			} else if(balance.compareTo(aQuarter) >= 0) {
+				balance = balance.subtract(aQuarter);
 				quarter++;
-			} else if(balance.compareTo(new BigDecimal("0.10")) >= 0) {
-				balance = balance.subtract(new BigDecimal("0.10"));
+				pieces++;
+			} else if(balance.compareTo(aDime) >= 0) {
+				balance = balance.subtract(aDime);
 				dime++;
-			} else if(balance.compareTo(new BigDecimal("0.05")) >= 0) {
-				balance = balance.subtract(new BigDecimal("0.05"));
+				pieces++;
+			} else if(balance.compareTo(aNickel) >= 0) {
+				balance = balance.subtract(aNickel);
 				nickel++;
+				pieces++;
 			}
 		}
-		
-		String yourChange = "You get ";
-		
-		if(tenDollarBill == 1) {
-			yourChange += "one ten dollar bill ";
-		}
-		if (tenDollarBill > 1) {
-			yourChange += tenDollarBill + " ten dollar bills ";
-		}
-		if (fiver == 1) {
-			yourChange += "one five dollar bill ";
-		}
-		if (fiver > 1) {
-			yourChange += fiver + " five dollar bills ";
-		}
-		if (dollar == 1) {
-			yourChange += "one dollar bill ";
-		}
-		if (dollar > 1) {
-			yourChange += dollar + " dollar bills ";
-		}
-		if (quarter == 1) {
-			yourChange += "one quarter ";
-		}
-		if (quarter > 1) {
-			yourChange += quarter + " quarters ";
-		}
-		if (dime == 1) {
-			yourChange += "one dime ";
-		}
-		if (dime > 1) {
-			yourChange += dime + " dimes ";
-		}
-		if (nickel == 1) {
-			yourChange += "and one nickel ";
-		}
-		if (nickel > 1) {
-			yourChange += " and " + nickel + " nickels ";
-		}
-		
-		
-		
-		return yourChange;
-
-//		} else {
-//			System.out.println("Thank you for your purchase! You have no change.");
 	}
 	
+	public void printChange() {
+		if(pieces > 0) {
+			if(tenDollarBill == 1) {
+				yourChange += "a ten dollar bill";
+				punctuation(tenDollarBill);
+			}
+			if (tenDollarBill > 1) {
+				yourChange += tenDollarBill + " ten dollar bills";
+				punctuation(tenDollarBill);
+			}
+			if (fiver == 1) {
+				yourChange += "a five dollar bill";
+				punctuation(fiver);
+			}
+			if (fiver > 1) {
+				yourChange += fiver + " five dollar bills";
+				punctuation(fiver);
+			}
+			if (dollar == 1) {
+				yourChange += "a one dollar bill";
+				punctuation(dollar);
+			}
+			if (dollar > 1) {
+				yourChange += dollar + " one dollar bills";
+				punctuation(dollar);
+			}
+			if (quarter == 1) {
+				yourChange += "a quarter";
+				punctuation(quarter);
+			}
+			if (quarter > 1) {
+				yourChange += quarter + " quarters";
+				punctuation(quarter);
+			}
+			if (dime == 1) {
+				yourChange += "a dime";
+				punctuation(dime);
+			}
+			if (dime > 1) {
+				yourChange += dime + " dimes";
+				punctuation(dime);
+			}
+			if (nickel == 1) {
+				yourChange += "a nickel";
+				punctuation(nickel);
+			}
+			if (nickel > 1) {
+				yourChange += nickel + " nickels";
+				punctuation(nickel);
+			}
+			
+			System.out.println(yourChange);
+		} else {
+			System.out.println("Goodbye!");
+		}
+	}
+	
+	public void punctuation(int valueCount) {
+		pieces = pieces - valueCount;
+		if(pieces == 0) {
+			yourChange += ".";
+		} else if(pieces > 0 && pieces < 3) {
+			yourChange += ", and ";
+		} else {
+			yourChange += ", ";
+		}
+	}
 	
 }
