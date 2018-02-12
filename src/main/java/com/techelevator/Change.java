@@ -13,7 +13,7 @@ public class Change {
 	private int dime = 0;
 	private int nickel = 0;
 	
-	private String yourChange = "You recieve ";
+	private String yourChange = "You receive ";
 	
 	private int pieces = 0;
 	

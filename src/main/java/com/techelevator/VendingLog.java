@@ -22,10 +22,7 @@ public class VendingLog {
 	
 	public void logData(boolean feed, BigDecimal exchange, BigDecimal currentFunds) throws IOException {
 		
-		try(Writer output = new BufferedWriter(new FileWriter(path, true))
-				/*PrintWriter writer = new PrintWriter(path)*/) {
-			String line = "";
-			
+		try(PrintWriter output = new PrintWriter(new FileWriter(path, true))) {
 			String timeStamp = new SimpleDateFormat("MM/dd/yyyy h:mm:ss a").format(new Date());
 			String action = "";
 			String money = "";
@@ -41,13 +38,13 @@ public class VendingLog {
 				currentBalance = "$" + currentFunds.toString();
 			}
 			
-			output.append(line);
-					/*printf("%s %10s %s %10s %n", timeStamp, action, money, currentBalance));*/
+			output.printf("%s %-15s %-5s %-10s %n", timeStamp, action, money, currentBalance);
 		}
+		
 	}
 	
-	public void logData(String item, String slotID, BigDecimal currentFunds, BigDecimal balance) throws FileNotFoundException {
-		try(PrintWriter writer = new PrintWriter(path)) {
+	public void logData(String item, String slotID, BigDecimal currentFunds, BigDecimal balance) throws IOException {
+		try(PrintWriter output = new PrintWriter(new FileWriter(path, true))) {
 			String timeStamp = new SimpleDateFormat("MM/dd/yyyy h:mm:ss a").format(new Date());
 			String action = "";
 			String money = "";
@@ -57,30 +54,8 @@ public class VendingLog {
 			money = "$" + balance;
 			currentBalance = "$" + currentFunds;
 			
-			writer.printf("%s %10s %s %10s %n", timeStamp, action, currentBalance, money);
+			output.printf("%s %-15s %-5s %-10s %n", timeStamp, action, currentBalance, money);
 		}
-	}
-	
-	public String lineGenerator(boolean feed) {
-		String line = "";
-		String timeStamp = new SimpleDateFormat("MM/dd/yyyy h:mm:ss a").format(new Date());
-		String action = "";
-		String money = "";
-		String currentBalance = "";
-		
-//		if(feed) {
-//			action = "FEED MONEY:";
-//			money = "$" + exchange.toString();
-//			currentBalance = "$" + currentFunds.toString();
-//		} else {
-//			action = "GIVE CHANGE:";
-//			money = "$" + exchange.toString();
-//			currentBalance = "$" + currentFunds.toString();
-//		}
-		
-		
-		
-		return line;
 	}
 	
 }

@@ -50,7 +50,7 @@ public class VendingMachine {
 			
 	}
 	
-	public void dispense(String slotID) throws FileNotFoundException {
+	public void dispense(String slotID) throws IOException {
 		
 		if(!inventory.get(slotID).isEmpty()) {
 			BigDecimal itemPrice = inventory.get(slotID).element().getPrice();
@@ -70,8 +70,8 @@ public class VendingMachine {
 		}
 	}
 	
-	public int itemBinCount() {
-		return itemBin.size();
+	public void emptyItemBin() {
+		itemBin.removeAll(itemBin);
 	}
 	public List<Item> getItemBin() {
 		return itemBin;
@@ -107,7 +107,7 @@ public class VendingMachine {
 	public void finish() throws IOException {
 		BigDecimal reset = new BigDecimal("0.00");
 		log.logData(false, balance, reset);
-		
+		emptyItemBin();
 		this.balance = reset;
 	}
 }

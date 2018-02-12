@@ -14,7 +14,7 @@ public class InventoryReader {
 	public Map<String, Queue<Item>> generateInventory() {
 
 		Map<String, Queue<Item>> inventory = new TreeMap<>();
-		String filePath = "/Users/andrewborkowski/workspace/java-module1-capstone-team5/vendingmachine.csv";
+		String filePath = "vendingmachine.csv";
 		File inventoryFile = new File(filePath);
 
 		try (Scanner fileScanner = new Scanner(inventoryFile)) {

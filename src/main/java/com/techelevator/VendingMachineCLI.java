@@ -64,10 +64,11 @@ public class VendingMachineCLI {
 				Change change = new Change(vendingMachine.getBalance());
 				change.makeChange();
 				change.printChange();
-				vendingMachine.finish();
+				
 				for(Item snack : vendingMachine.getItemBin()) {
 					System.out.println(snack.getConsume());
 				}
+				vendingMachine.finish();
 			}
 		}
 	}
