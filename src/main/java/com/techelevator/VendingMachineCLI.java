@@ -1,6 +1,5 @@
 package com.techelevator;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -49,6 +48,7 @@ public class VendingMachineCLI {
 						Scanner scan = new Scanner(System.in);
 						choice = scan.nextLine();
 						choice = choice.toUpperCase();
+						scan.close();
 						
 						if (vendingMachine.getInventoryKey(choice)) {
 							vendingMachine.dispense(choice);
@@ -77,6 +77,5 @@ public class VendingMachineCLI {
 		Menu menu = new Menu(System.in, System.out); // this is a class. this instantiates a new object of this class
 		VendingMachineCLI cli = new VendingMachineCLI(menu); // and lets objects handle everything else
 		cli.run();
-
 	}
 }
