@@ -38,10 +38,8 @@ public class InventoryReader {
 				inventory.put(data[0], queue);
 			}
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return inventory;
 	}
-
 }

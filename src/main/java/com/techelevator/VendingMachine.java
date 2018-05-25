@@ -9,48 +9,39 @@ import java.util.NoSuchElementException;
 import java.util.Queue;
 
 public class VendingMachine {
-// instantiation
+
 	private BigDecimal balance = new BigDecimal("0.00");
 	private Map<String, Queue<Item>> inventory;
 	private List<Item> itemBin = new LinkedList<>();
 	private InventoryReader inventoryGen = new InventoryReader();
 	private VendingLog log = new VendingLog();
 	
-// constructor
 	public VendingMachine() {
 		this.inventory = inventoryGen.generateInventory();
 	}
 	
-	
-// getters & setters
 	public BigDecimal getBalance() {
 		return balance;
 	}
-	
 	public boolean getInventoryKey(String input) {
 		return inventory.containsKey(input);
 	}
 	
-// methods
 	public void deposit(BigDecimal feed) throws IOException {
-		
-			if(feed.compareTo(new BigDecimal("0")) > 0 &&
-			feed.compareTo(new BigDecimal("1")) == 0 ||
-			feed.compareTo(new BigDecimal("2")) == 0 ||
-			feed.compareTo(new BigDecimal("5")) == 0 ||
-			feed.compareTo(new BigDecimal("10")) == 0) {
-				this.balance = balance.add(feed);
-				log.logData(true, feed, balance);
-			} else {
-				System.out.println();
-				System.out.println("Invalid amount.");
-			}
-		
-			
+		if(feed.compareTo(new BigDecimal("0")) > 0 &&
+		feed.compareTo(new BigDecimal("1")) == 0 ||
+		feed.compareTo(new BigDecimal("2")) == 0 ||
+		feed.compareTo(new BigDecimal("5")) == 0 ||
+		feed.compareTo(new BigDecimal("10")) == 0) {
+			this.balance = balance.add(feed);
+			log.logData(true, feed, balance);
+		} else {
+			System.out.println();
+			System.out.println("Invalid amount.");
+		}
 	}
 	
 	public void dispense(String slotID) throws IOException {
-		
 		if(!inventory.get(slotID).isEmpty()) {
 			BigDecimal itemPrice = inventory.get(slotID).element().getPrice();
 

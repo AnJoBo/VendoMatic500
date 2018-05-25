@@ -8,18 +8,17 @@ import com.techelevator.view.Menu;
 public class VendingMachineCLI {
 
 	private static VendingMachine vendingMachine = new VendingMachine();
+	private Menu menu;
 
 	private static final String MAIN_MENU_OPTION_DISPLAY_ITEMS = "Display Vending Machine Items";
 	private static final String MAIN_MENU_OPTION_PURCHASE = "Purchase";
 	private static final String[] MAIN_MENU_OPTIONS = { MAIN_MENU_OPTION_DISPLAY_ITEMS, MAIN_MENU_OPTION_PURCHASE };
+
 	private static final String PURCHASE_MENU_OPTION_FEED_MONEY = "Feed Money";
 	private static final String PURCHASE_MENU_OPTION_PURCHASE = "Select Product";
 	private static final String PURCHASE_MENU_OPTION_FINISH_TRANSACTION = "Finish Transaction";
-
 	private static final String[] PURCHASE_MENU_OPTIONS = { PURCHASE_MENU_OPTION_FEED_MONEY,
 			PURCHASE_MENU_OPTION_PURCHASE, PURCHASE_MENU_OPTION_FINISH_TRANSACTION, };
-
-	private Menu menu;
 
 	public VendingMachineCLI(Menu menu) {
 		this.menu = menu;
@@ -48,7 +47,7 @@ public class VendingMachineCLI {
 						Scanner scan = new Scanner(System.in);
 						choice = scan.nextLine();
 						choice = choice.toUpperCase();
-						scan.close();
+						//scan.close(); // THIS CAUSES ERROR
 						
 						if (vendingMachine.getInventoryKey(choice)) {
 							vendingMachine.dispense(choice);
@@ -74,8 +73,8 @@ public class VendingMachineCLI {
 	}
 
 	public static void main(String[] args) throws IOException {
-		Menu menu = new Menu(System.in, System.out); // this is a class. this instantiates a new object of this class
-		VendingMachineCLI cli = new VendingMachineCLI(menu); // and lets objects handle everything else
+		Menu menu = new Menu(System.in, System.out);
+		VendingMachineCLI cli = new VendingMachineCLI(menu);
 		cli.run();
 	}
 }
