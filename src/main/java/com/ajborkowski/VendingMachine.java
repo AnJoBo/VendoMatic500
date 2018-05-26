@@ -1,7 +1,8 @@
-package com.techelevator;
+package com.ajborkowski;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -28,13 +29,10 @@ public class VendingMachine {
 	}
 	
 	public void deposit(BigDecimal feed) throws IOException {
-		if(feed.compareTo(new BigDecimal("0")) > 0 &&
-		feed.compareTo(new BigDecimal("1")) == 0 ||
-		feed.compareTo(new BigDecimal("2")) == 0 ||
-		feed.compareTo(new BigDecimal("5")) == 0 ||
-		feed.compareTo(new BigDecimal("10")) == 0) {
-			this.balance = balance.add(feed);
-			log.logData(true, feed, balance);
+		if(feed.compareTo(new BigDecimal("0.00")) >= 0 &&
+		   feed.compareTo(new BigDecimal("10.00")) <= 0) {
+				this.balance = balance.add(feed);
+				log.logData(true, feed, balance);
 		} else {
 			System.out.println();
 			System.out.println("Invalid amount.");
@@ -91,7 +89,8 @@ public class VendingMachine {
 	}
 	
 	public void inventorySlotEmpty(String key) {
-		System.out.printf("%-8s | %-20s | -.--  | - %n", key, " -----SOLD OUT-----");
+		System.out.printf("%-8s | %-20s | -.--  | - %n", 
+				key, " -----SOLD OUT-----");
 	}
 	
 	public void finish() throws IOException {

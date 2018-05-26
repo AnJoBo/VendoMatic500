@@ -1,9 +1,9 @@
-package com.techelevator;
+package com.ajborkowski;
 
 import java.io.IOException;
 import java.util.Scanner;
 
-import com.techelevator.view.Menu;
+import com.ajborkowski.view.Menu;
 
 public class VendingMachineCLI {
 
@@ -34,7 +34,7 @@ public class VendingMachineCLI {
 				
 				while (!choice.equals(PURCHASE_MENU_OPTION_FINISH_TRANSACTION)) {
 					choice = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS,
-							"Current Money Provided: $" + vendingMachine.getBalance());
+							"Current Funds: $" + vendingMachine.getBalance());
 
 					if (choice.equals(PURCHASE_MENU_OPTION_FEED_MONEY)) {
 						vendingMachine.deposit(menu.getAmountFromUserInput());

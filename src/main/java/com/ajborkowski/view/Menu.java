@@ -1,10 +1,12 @@
-package com.techelevator.view;
+package com.ajborkowski.view;
 
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.util.Scanner;
+
+import javax.script.Bindings;
 
 public class Menu {
 
@@ -18,6 +20,7 @@ public class Menu {
 
 	public Object getChoiceFromOptions(Object[] options, String message) {
 		Object choice = null;
+		
 		while(choice == null) {
 			displayMenuOptions(options, message);
 			choice = getChoiceFromUserInput(options);
@@ -36,15 +39,21 @@ public class Menu {
 	public BigDecimal getAmountFromUserInput() {
 		for(;;){
 			out.println();
-			out.print("Please enter an amount >>>");
+			out.print("Enter an amount [0 to cancel]>>>");
 			out.flush();
-
+			
 			String userInput = in.nextLine();
 			try {
-				return new BigDecimal(userInput).setScale(2);
+				BigDecimal input = new BigDecimal(userInput).stripTrailingZeros();
+				if(input.precision() == 1 && input.precision() <= 4) {
+					return input;
+				} else {
+					out.println("\n*** Please enter a valid number ***");
+					out.flush();
+				}
+				
 			} catch(NumberFormatException ex) {
-				out.println("Please enter a valid number.");
-				out.println();
+				out.println("\n*** Please enter a valid number ***");
 				out.flush();
 			}
 		}
@@ -59,10 +68,10 @@ public class Menu {
 				choice = options[selectedOption - 1];
 			}
 		} catch(NumberFormatException e) {
-			// eat the exception, an error message will be displayed below since choice will be null
+			//out.println(e.getMessage());
 		}
-		if(choice == null) {
-			out.println("\n*** "+userInput+" is not a valid option ***\n");
+		if(choice == null && choice != "") {
+			out.println("\n*** What you entered is not not a valid option ***");
 		}
 		return choice;
 	}
@@ -74,7 +83,7 @@ public class Menu {
 			out.println(optionNum + ") " + options[i]);
 		}
 		out.println(message);
-		out.print("\nPlease choose an option >>> ");
+		out.print("\nChoose an option >>> ");
 		out.flush();
 	}
 }

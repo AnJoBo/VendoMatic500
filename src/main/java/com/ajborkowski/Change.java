@@ -1,4 +1,4 @@
-package com.techelevator;
+package com.ajborkowski;
 
 import java.math.BigDecimal;
 
@@ -109,7 +109,6 @@ public class Change {
 				yourChange += nickel + " nickels";
 				punctuation(nickel);
 			}
-			
 			System.out.println(yourChange);
 		} else {
 			System.out.println("Goodbye!");
