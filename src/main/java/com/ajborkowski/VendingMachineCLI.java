@@ -25,7 +25,7 @@ public class VendingMachineCLI {
 	}
 
 	public void run() throws IOException {
-		
+		menu.displayBanner();
 		while (true) {
 			String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
 			if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) {
@@ -77,4 +77,6 @@ public class VendingMachineCLI {
 		VendingMachineCLI cli = new VendingMachineCLI(menu);
 		cli.run();
 	}
+	
+	
 }

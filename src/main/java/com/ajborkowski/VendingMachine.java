@@ -31,6 +31,7 @@ public class VendingMachine {
 	public void deposit(BigDecimal feed) throws IOException {
 		if(feed.compareTo(new BigDecimal("0.00")) >= 0 &&
 		   feed.compareTo(new BigDecimal("10.00")) <= 0) {
+				feed = feed.setScale(2, RoundingMode.UNNECESSARY);
 				this.balance = balance.add(feed);
 				log.logData(true, feed, balance);
 		} else {
@@ -64,6 +65,20 @@ public class VendingMachine {
 	public List<Item> getItemBin() {
 		return itemBin;
 	}
+
+	public void finish() throws IOException {
+		BigDecimal reset = new BigDecimal("0.00");
+		log.logData(false, balance, reset);
+		emptyItemBin();
+		this.balance = reset;
+	}
+
+	public void inventoryHeader() {
+		System.out.printf("----------------------------------------------- %n" +
+									"%8s | %-20s | %s | Stock %n"
+						+ "----------------------------------------------- %n",
+									"Slot ID", "Item", "Price");
+	}
 	
 	public void displayInventory() {
 		inventoryHeader();
@@ -80,23 +95,10 @@ public class VendingMachine {
 			}
 		}
 	}
-	
-	public void inventoryHeader() {
-		System.out.printf("----------------------------------------------- %n" +
-									"%8s | %-20s | %s | Stock %n"
-						+ "----------------------------------------------- %n",
-									"Slot ID", "Item", "Price");
-	}
-	
+
 	public void inventorySlotEmpty(String key) {
 		System.out.printf("%-8s | %-20s | -.--  | - %n", 
 				key, " -----SOLD OUT-----");
 	}
 	
-	public void finish() throws IOException {
-		BigDecimal reset = new BigDecimal("0.00");
-		log.logData(false, balance, reset);
-		emptyItemBin();
-		this.balance = reset;
-	}
 }
